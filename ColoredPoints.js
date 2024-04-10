@@ -1,54 +1,12 @@
 // ColoredPoint.js (c) 2012 matsuda
 // Vertex shader program
 
-
-//Global Variables
-let gl;
-let canvas;
-let a_Position;
-let u_FragColor;
-
 var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' +
   'void main() {\n' +
   '  gl_Position = a_Position;\n' +
   '  gl_PointSize = 10.0;\n' +
   '}\n';
-//setupWebGL() – get the canvas and gl context
-//connectVariablesToGLSL() – compile the shader programs, attach the javascript variables to the GLSL variables
-//click() – there should be a specific function that handles a click, but doesn’t have extra code that doesn’t belong there (like initialization and rendering)
-//Hooray another point! No new functionality. Just understanding and cleaning up the book example.
- function connectVariablesToGLSL() {
-  
-  // Initialize shaders
-  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
-    console.log('Failed to intialize shaders.');
-    return;
-  }
-  
-  // Get the storage location of a_Position
-  var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
-  if (a_Position < 0) {
-    console.log('Failed to get the storage location of a_Position');
-    return;
-  }
-
-  // Get the storage location of u_FragColor
-  var u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
-  if (!u_FragColor) {
-    console.log('Failed to get the storage location of u_FragColor');
-    return;
-  }
- };
-
- function  handleClicks() {
-  return null;
- };
-
- function renderAllShapes(shape) {
-  //renderAllShapes() – based on some data structure that is holding all the information about what to draw, actually draw all the shapes.
-  return null;
- };
 
 // Fragment shader program
 var FSHADER_SOURCE =
@@ -58,30 +16,63 @@ var FSHADER_SOURCE =
   '  gl_FragColor = u_FragColor;\n' +
   '}\n';
 
+  let gl;
+  let canvas;
+  let a_Position;
+  let u_FragColor;
   
- function setupWebGL() {
-
+function setupWebGL() {
   // Retrieve <canvas> element
-  var canvas = document.getElementById('webgl');
-
+  canvas = document.getElementById('webgl');  
   // Get the rendering context for WebGL
-  var gl = getWebGLContext(canvas);
+  gl = getWebGLContext(canvas);
   if (!gl) {
     console.log('Failed to get the rendering context for WebGL');
     return;
-  };
- };
+  }
+}
 
+function connectVariablesToGLSL() {  
+  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+    console.log('Failed to intialize shaders.');
+    return;
+  }
+
+  // // Get the storage location of a_Position
+  var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+  if (a_Position < 0) {
+    console.log('Failed get the storage location of a_Position');
+    return;
+  }
+
+  // Get the storage location of u_FragColor
+  var u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+  if (!u_FragColor) {
+    console.log('Failed to get the storage location of u_FragColor');
+    return;
+  }
+}
+let color_storage = [1.0, 1.0, 1.0, 1.0]
+let size_storage = 50;
+function addActionsforHTMLUI() {
+  document.getElementById("green").onclick = function() {color_storage = [0.0, 1.0, 0.0, 1.0]}
+  document.getElementById("red").addEventListener("mouseup", function() {color_storage[0] = this.value / 100})
+  document.getElementById("blue").addEventListener("mouseup", function() {color_storage[1] = this.value / 100})
+  document.getElementById("Green").addEventListener("mouseup", function() {color_storage[2] = this.value / 100})
+  
+  console.log("Colors: ", color_storage)
+
+  document.getElementById("size").addEventListener("mouseup", function() {size_storage = this.size})
+}
 function main() {
 
-  //set up canvas and GL variables
   setupWebGL();
- //set up GLSL shader
-  connectVariablesToGLSL()
-
+  // Initialize shaders
   // Register function (event handler) to be called on a mouse press
   canvas.onmousedown = click;
 
+  addActionsforHTMLUI();
+  connectVariablesToGLSL();
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -101,15 +92,9 @@ function click(ev) {
 
   // Store the coordinates to g_points array
   g_points.push([x, y]);
+  
   // Store the coordinates to g_points array
-  if (x >= 0.0 && y >= 0.0) {      // First quadrant
-    g_colors.push([1.0, 0.0, 0.0, 1.0]);  // Red
-  } else if (x < 0.0 && y < 0.0) { // Third quadrant
-    g_colors.push([0.0, 1.0, 0.0, 1.0]);  // Green
-  } else {                         // Others
-    g_colors.push([1.0, 1.0, 1.0, 1.0]);  // White
-  }
-
+  g_colors.push(color_storage);
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -126,3 +111,4 @@ function click(ev) {
     gl.drawArrays(gl.POINTS, 0, 1);
   }
 }
+
