@@ -3,9 +3,11 @@
 
 var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' +
+  'uniform float u_size;\n' +
   'void main() {\n' +
   '  gl_Position = a_Position;\n' +
-  '  gl_PointSize = 10.0;\n' +
+  //'  gl_PointSize = 10.0;\n' +
+  '  gl_PointSize = u_size;\n' +
   '}\n';
 
 // Fragment shader program
@@ -20,7 +22,7 @@ var FSHADER_SOURCE =
   let canvas;
   let a_Position;
   let u_FragColor;
-  
+  let u_size;
 function setupWebGL() {
   // Retrieve <canvas> element
   canvas = document.getElementById('webgl');  
@@ -82,6 +84,7 @@ function main() {
 
 var g_points = [];  // The array for the position of a mouse press
 var g_colors = [];  // The array to store the color of a point
+var g_size = [];
 function click(ev) {
   var x = ev.clientX; // x coordinate of a mouse pointer
   var y = ev.clientY; // y coordinate of a mouse pointer
@@ -95,6 +98,8 @@ function click(ev) {
   
   // Store the coordinates to g_points array
   g_colors.push(color_storage);
+
+  g_size.push(size_storage)
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
