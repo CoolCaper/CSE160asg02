@@ -12,21 +12,44 @@
     <script src="../lib/webgl-utils.js"></script>
     <script src="../lib/webgl-debug.js"></script>
     <script src="../lib/cuon-utils.js"></script>
-    <script src="ColoredPoints.js"></script>
+
+    <script src="./ColoredPoints.js"></script>
+    <script src="./HelloTriangle.js"></script>
+    <script src="./HelloCircle.js"></script>
+    
   </body>
+  <br>
   <div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="red">
+    <text>Red</text>
+    <input type="range" min="0" max="100" value="100" class="slider" id="red">
   </div>
   <br>
   <div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="Green">
+    <text>Green</text>
+    <input type="range" min="0" max="100" value="100" class="slider" id="green">
   </div>
   <br>
   <div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="blue">
+    <text>Blue</text>
+    <input type="range" min="0" max="100" value="100" class="slider" id="blue">
   </div>
   <div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="size">
+    <text>Size</text>
+    <input type="range" min="10" max="90" value="50" class="slider" id="size">
   </div>
-  <button type="button" id="green">Green!</button>
+  <button type="button" id="green_button">Green!</button>
+  <button type="button" id="red_button">Red!</button>
+  <button type="button" id="blue_button">Blue!</button>
+  <br>  
+  <button type="clear" id="clear">Clear</button>
+  <br>
+  <button type="triangle_button" id="Triangle">Triangle</button>
+  <button type="point" id="point">Point</button>
+  <button type="circle_button" id="circle_Point">Circle</button>
+  <br>
+  
+  <div class="slidecontainer">
+    <text>Circle Segments</text>
+    <input type="range" min="5" max="36" value="10" class="slider" id="CircleSegs">
+  </div>
 </html>
